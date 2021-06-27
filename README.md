@@ -1,4 +1,4 @@
-# front
+# Case Bxblue
 
 ## Project setup
 ```
