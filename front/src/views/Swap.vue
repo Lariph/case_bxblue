@@ -93,6 +93,7 @@
       </v-col>
     </v-row>
 
+    <v-row align="center">
     <v-btn
       class="ma-2"
       color="primary"
@@ -100,12 +101,15 @@
     >
       Essa troca é justa?
     </v-btn>
-
+    </v-row>
+    
+    <v-row align="center">
     <v-alert
       border="right"
       colored-border
       type="error"
       elevation="2"
+      class="ma-2"
       v-show="showJogador2"
     >
       Essa troca é injusta para o jogador 2
@@ -116,6 +120,7 @@
       colored-border
       type="error"
       elevation="2"
+      class="ma-2"
       v-show="showJogador1"
     >
       Essa troca é injusta para o jogador 1
@@ -126,18 +131,28 @@
       colored-border
       type="info"
       elevation="2"
+      class="ma-2"
       v-show="showJogadores"
     >
       Essa troca é justa
     </v-alert>
 
+    </v-row>
+
+    <history
+        :exchanges="exchanges"
+    ></history>
+
    </v-container>
 </template>
 
 <script>
+import History from '../components/History.vue'
+
 export default {
     name: 'Swap',
     components: {
+       History,
     },
     data () {
       return {
@@ -152,6 +167,7 @@ export default {
         showJogador2: false,
         showJogador1: false,
         showJogadores: false,
+        exchanges: [],
      }
    },
    beforeMount() {
@@ -201,20 +217,62 @@ export default {
                                    this.showJogador1 = false
                                    this.showJogadores = false
                                    this.showJogador2 = true
+                                    this.exchanges.push(
+                                    {
+                                    jogador1: 
+                                        { pokemon: this.firstPokemon,
+                                          quantidade: this.firstPokemonQuant, 
+                                          base_experience: this.firstBaseExperience,
+                                        },
+                                    jogador2:
+                                        { pokemon: this.secondPokemon,
+                                          quantidade: this.secondPokemonQuant, 
+                                          base_experience: this.secondBaseExperience,
+                                        },
+                                    exchange: 'Injusta para o jogador 2',
+                                    })
                                 }
                                 if (difference >= 0 && difference <= 50) {
                                    this.showJogador1 = false
                                    this.showJogadores = true
                                    this.showJogador2 = false
+                                   this.exchanges.push(
+                                    {
+                                    jogador1: 
+                                        { pokemon: this.firstPokemon,
+                                          quantidade: this.firstPokemonQuant, 
+                                          base_experience: this.firstBaseExperience,
+                                        },
+                                    jogador2:
+                                        { pokemon: this.secondPokemon,
+                                          quantidade: this.secondPokemonQuant, 
+                                          base_experience: this.secondBaseExperience,
+                                        },
+                                    exchange: 'Justa para os dois',
+                                    })
                                 }
                                 if (difference > 50) {
                                    this.showJogador1 = true
                                    this.showJogadores = false
                                    this.showJogador2 = false
+                                   this.exchanges.push(
+                                    {
+                                    jogador1: 
+                                        { pokemon: this.firstPokemon,
+                                          quantidade: this.firstPokemonQuant, 
+                                          base_experience: this.firstBaseExperience,
+                                        },
+                                    jogador2:
+                                        { pokemon: this.secondPokemon,
+                                          quantidade: this.secondPokemonQuant, 
+                                          base_experience: this.secondBaseExperience,
+                                        },
+                                    exchange: 'Injusta para o jogador 1',
+                                    })
                                 }
                })
            })
-       }
+       },
    },
 
 }
